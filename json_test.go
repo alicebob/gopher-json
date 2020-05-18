@@ -60,7 +60,8 @@ func TestSimple(t *testing.T) {
 		obj = obj,
 	}
 	obj.obj2 = obj2
-	assert(json.encode(obj) == nil)
+	local status, err = pcall(function() json.encode(obj) end)
+	assert(err == "cannot encode recursively nested tables to JSON", err)
 	`
 	s := lua.NewState()
 	Preload(s)
